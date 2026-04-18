@@ -226,7 +226,7 @@ export const RESUME: Resume = {
   },
 
   education: {
-    degree: 'B.Sc. in Computer Science & Engineering',
+    degree: 'B.Sc. in Computer Science & Engineering (2015)',
     school: 'Hajee Mohammad Danesh Science & Technology University',
     location: 'Dinajpur, Bangladesh',
     details: 'CGPA: 3.26 / 4.00',
