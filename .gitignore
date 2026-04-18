@@ -33,6 +33,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# ide related folders:
 .vscode
 .idea
 .claude
