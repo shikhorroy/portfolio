@@ -1,0 +1,124 @@
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: block;
+}
+
+.nav {
+  position: relative;
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--dur-med) var(--ease-out),
+    border-color var(--dur-med) var(--ease-out),
+    backdrop-filter var(--dur-med) var(--ease-out);
+
+  &--scrolled {
+    background: var(--bg-overlay);
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    border-bottom-color: var(--border);
+  }
+
+  &__inner {
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: var(--text-strong);
+
+    &:hover { color: var(--text-strong); }
+  }
+
+  &__brand-mark {
+    display: block;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    box-shadow: var(--glow-accent);
+    flex-shrink: 0;
+  }
+
+  &__brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    line-height: 1.1;
+  }
+
+  &__brand-name {
+    font-size: 15px;
+  }
+
+  &__brand-role {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  &__brand-cursor {
+    animation: blink 1s step-start infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    background: var(--bg-glass);
+    backdrop-filter: blur(8px);
+  }
+
+  &__link {
+    position: relative;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-radius: var(--radius-pill);
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      background var(--dur-fast) var(--ease-out);
+
+    &:hover {
+      color: var(--text-strong);
+      background: var(--bg-elevated);
+    }
+
+    &--active {
+      color: var(--text-inverse);
+      background: var(--gradient-accent);
+      box-shadow: var(--glow-accent);
+
+      &:hover {
+        color: var(--text-inverse);
+        background: var(--gradient-accent);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 780px) {
+  .nav__links { display: none; }
+  .nav__brand-role { display: none; }
+}

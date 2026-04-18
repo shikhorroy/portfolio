@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+.main {
+  position: relative;
+  z-index: 1;
+}
+
+// ----------------------------------------------------------------------------
+// Background: animated grid + aurora glow + subtle noise.
+// All layers use CSS tokens so dark/light themes swap them automatically.
+// ----------------------------------------------------------------------------
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  &__grid {
+    position: absolute;
+    inset: -2px;
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 80%);
+  }
+
+  &__aurora {
+    position: absolute;
+    inset: -10%;
+    background: var(--aurora-1), var(--aurora-2), var(--aurora-3);
+    filter: blur(10px);
+    animation: aurora-drift 22s ease-in-out infinite alternate;
+  }
+
+  &__noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.025;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes aurora-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-3%, 2%) scale(1.05); }
+  100% { transform: translate(3%, -2%) scale(1.02); }
+}

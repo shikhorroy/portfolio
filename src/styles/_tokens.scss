@@ -1,0 +1,132 @@
+// ----------------------------------------------------------------------------
+// Theme Tokens - Single Source of Truth
+// ----------------------------------------------------------------------------
+// All colors, shadows, and surface values are defined here as CSS custom
+// properties so they can be swapped at runtime (dark/light) and tuned from
+// one place. Add a new theme by declaring another [data-theme='xxx'] block.
+// ----------------------------------------------------------------------------
+
+:root {
+  // -- Spacing / radius / motion -----------------------------------------
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur-med: 280ms;
+  --dur-slow: 480ms;
+
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  --container-max: 1160px;
+  --nav-height: 68px;
+}
+
+// ============================================================================
+// DARK THEME (default)
+// ============================================================================
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  // Brand / accent (cyan + violet electric blend - the "futuristic" vibe)
+  --accent-1: #22d3ee;        // cyan-400
+  --accent-2: #a855f7;        // violet-500
+  --accent-3: #f472b6;        // pink-400 (rare highlight)
+  --accent-soft: rgba(34, 211, 238, 0.14);
+
+  // Surfaces
+  --bg-base:       #07090f;
+  --bg-surface:    #0d1220;
+  --bg-elevated:   #121a2e;
+  --bg-overlay:    rgba(14, 19, 36, 0.72);
+  --bg-glass:      rgba(255, 255, 255, 0.035);
+
+  // Text
+  --text-strong:   #f1f5ff;
+  --text-primary:  #d6dcef;
+  --text-secondary:#9aa3c0;
+  --text-muted:    #6a738f;
+  --text-inverse:  #0b0f1a;
+
+  // Borders / separators
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+
+  // Gradients
+  --gradient-accent: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  --gradient-text: linear-gradient(120deg, #22d3ee 0%, #a855f7 55%, #f472b6 100%);
+  --gradient-surface: linear-gradient(180deg, rgba(34, 211, 238, 0.06) 0%, rgba(168, 85, 247, 0.04) 100%);
+
+  // Shadows / glows
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --glow-accent: 0 0 30px rgba(34, 211, 238, 0.32);
+  --glow-violet: 0 0 40px rgba(168, 85, 247, 0.28);
+
+  // Backdrop
+  --grid-color: rgba(255, 255, 255, 0.035);
+  --aurora-1: radial-gradient(ellipse 60% 50% at 20% 20%, rgba(34, 211, 238, 0.18), transparent 60%);
+  --aurora-2: radial-gradient(ellipse 50% 50% at 80% 10%, rgba(168, 85, 247, 0.18), transparent 60%);
+  --aurora-3: radial-gradient(ellipse 70% 40% at 50% 100%, rgba(244, 114, 182, 0.10), transparent 60%);
+}
+
+// ============================================================================
+// LIGHT THEME
+// ============================================================================
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --accent-1: #0ea5b7;
+  --accent-2: #7c3aed;
+  --accent-3: #db2777;
+  --accent-soft: rgba(14, 165, 183, 0.12);
+
+  --bg-base:       #f6f8fc;
+  --bg-surface:    #ffffff;
+  --bg-elevated:   #ffffff;
+  --bg-overlay:    rgba(255, 255, 255, 0.72);
+  --bg-glass:      rgba(255, 255, 255, 0.6);
+
+  --text-strong:   #0a1024;
+  --text-primary:  #1f2a44;
+  --text-secondary:#4b5573;
+  --text-muted:    #7c859f;
+  --text-inverse:  #ffffff;
+
+  --border-strong: rgba(10, 20, 44, 0.16);
+  --border:        rgba(10, 20, 44, 0.09);
+  --border-subtle: rgba(10, 20, 44, 0.05);
+
+  --gradient-accent: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+  --gradient-text: linear-gradient(120deg, #0ea5b7 0%, #7c3aed 55%, #db2777 100%);
+  --gradient-surface: linear-gradient(180deg, rgba(14, 165, 183, 0.04) 0%, rgba(124, 58, 237, 0.03) 100%);
+
+  --shadow-sm: 0 2px 8px rgba(14, 20, 46, 0.06);
+  --shadow-md: 0 10px 30px rgba(14, 20, 46, 0.08);
+  --shadow-lg: 0 24px 60px rgba(14, 20, 46, 0.14);
+  --glow-accent: 0 0 30px rgba(14, 165, 183, 0.20);
+  --glow-violet: 0 0 40px rgba(124, 58, 237, 0.18);
+
+  --grid-color: rgba(10, 20, 44, 0.04);
+  --aurora-1: radial-gradient(ellipse 60% 50% at 20% 20%, rgba(14, 165, 183, 0.14), transparent 60%);
+  --aurora-2: radial-gradient(ellipse 50% 50% at 80% 10%, rgba(124, 58, 237, 0.12), transparent 60%);
+  --aurora-3: radial-gradient(ellipse 70% 40% at 50% 100%, rgba(219, 39, 119, 0.08), transparent 60%);
+}

@@ -1,0 +1,53 @@
+:host {
+  display: inline-flex;
+}
+
+.theme-toggle {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--bg-glass);
+  color: var(--text-secondary);
+  overflow: hidden;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    border-color: var(--accent-1);
+    color: var(--accent-1);
+    transform: translateY(-1px);
+  }
+}
+
+.icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transition:
+    opacity var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// In dark mode show sun (to switch TO light). In light mode show moon.
+:root[data-theme='dark'] {
+  .icon--sun  { opacity: 1; transform: rotate(0);       }
+  .icon--moon { opacity: 0; transform: rotate(-90deg); }
+}
+:root[data-theme='light'] {
+  .icon--sun  { opacity: 0; transform: rotate(90deg);  }
+  .icon--moon { opacity: 1; transform: rotate(0);      }
+}

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" shape-rendering="geometricPrecision">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="s" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,1)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.88)"/>
+    </linearGradient>
+    <!-- Glow filter for favicon crispness -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
+
+  <!-- Inner subtle highlight -->
+  <rect x="1.5" y="1.5" width="97" height="97" rx="21" fill="none"
+        stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+
+  <!-- S letterform — hand-crafted bezier, no font dependency -->
+  <!-- Top arc: right → up → left                               -->
+  <!-- Diagonal swash: left-middle → right-middle               -->
+  <!-- Bottom arc: right → down → left                          -->
+  <path
+    d="M 67,31 C 67,19 33,19 33,36 C 33,50 67,50 67,64 C 67,81 33,81 33,69"
+    fill="none"
+    stroke="url(#s)"
+    stroke-width="9.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#glow)"
+  />
+
+  <!-- Tiny corner accent dots — add the "circuit / tech" feel -->
+  <circle cx="82" cy="18" r="3" fill="rgba(255,255,255,0.35)"/>
+  <circle cx="18" cy="82" r="3" fill="rgba(255,255,255,0.35)"/>
+</svg>
