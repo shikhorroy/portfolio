@@ -15,15 +15,8 @@ import { RESUME, type ContactLink } from '../../core/data/resume.data';
             <h2 class="section-title">Say <span class="text-gradient">hello</span></h2>
             <p class="contact__desc">
               I'm always happy to connect with fellow engineers, swap ideas, or just talk tech.
-              Find me on LinkedIn or shoot me an email - I read everything.
+              Find me on LinkedIn or explore my profiles.
             </p>
-
-            <a class="btn btn--primary" [href]="emailHref">
-              Send me an email
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16v16H4zM4 4l8 8 8-8"/>
-              </svg>
-            </a>
           </div>
 
           <ul class="contact__links">
@@ -56,8 +49,6 @@ export class ContactComponent {
 
   protected readonly resume = RESUME;
   protected readonly year = new Date().getFullYear();
-  protected readonly emailHref =
-    RESUME.contacts.find((c) => c.icon === 'mail')?.href ?? 'mailto:';
 
   protected isExternal(c: ContactLink): boolean {
     return c.href.startsWith('http');
