@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { RESUME } from '../../core/data/resume.data';
+import { ChangeDetectionStrategy, Component, OnInit, computed, signal } from '@angular/core';
+import { ResumeService } from '../../core/services/resume.service';
 
 const CATEGORY_COLORS: Record<string, string> = {
   'Backend & Languages':   '#22d3ee',
@@ -28,10 +28,10 @@ const CATEGORY_COLORS: Record<string, string> = {
             [class.skills-tab--active]="activeCategory() === null"
             (click)="setCategory(null)">
             All
-            <span class="skills-tab__count">{{ allCount }}</span>
+            <span class="skills-tab__count">{{ allCount() }}</span>
           </button>
 
-          @for (g of groups; track g.label) {
+          @for (g of groups(); track g.label) {
             <button
               class="skills-tab"
               role="tab"
@@ -63,26 +63,36 @@ const CATEGORY_COLORS: Record<string, string> = {
   `,
   styleUrl: './skills.component.scss',
 })
-export class SkillsComponent {
+export class SkillsComponent implements OnInit {
   protected readonly activeCategory = signal<string | null>(null);
-
-  protected readonly groups = RESUME.skills.map((g) => ({
-    label: g.label,
-    color: CATEGORY_COLORS[g.label] ?? '#22d3ee',
-    count: g.items.length,
-  }));
-
-  protected readonly allCount = RESUME.skills.reduce((n, g) => n + g.items.length, 0);
-
-  protected readonly visibleChips = computed(() =>
-    RESUME.skills.flatMap((g) =>
+  protected readonly groups = signal<Array<{ label: string; color: string; count: number }>>([]);
+  protected readonly allCount = signal<number>(0);
+  protected readonly visibleChips = computed(() => {
+    const skills = this.resumeService.resume$()?.skills ?? [];
+    return skills.flatMap((g) =>
       g.items.map((item) => ({
         label: item,
         category: g.label,
         color: CATEGORY_COLORS[g.label] ?? '#22d3ee',
       })),
-    ),
-  );
+    );
+  });
+
+  constructor(private resumeService: ResumeService) {}
+
+  ngOnInit(): void {
+    this.resumeService.getResume().then((resume) => {
+      const groups = resume.skills.map((g) => ({
+        label: g.label,
+        color: CATEGORY_COLORS[g.label] ?? '#22d3ee',
+        count: g.items.length,
+      }));
+      this.groups.set(groups);
+
+      const count = resume.skills.reduce((n, g) => n + g.items.length, 0);
+      this.allCount.set(count);
+    });
+  }
 
   protected setCategory(cat: string | null): void {
     this.activeCategory.set(cat);

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
-import { RESUME, type ContactLink } from '../../core/data/resume.data';
+import { ResumeService } from '../../core/services/resume.service';
+import { type ContactLink } from '../../core/data/resume.data';
 
 @Component({
   selector: 'app-contact',
@@ -20,7 +21,7 @@ import { RESUME, type ContactLink } from '../../core/data/resume.data';
           </div>
 
           <ul class="contact__links">
-            @for (c of resume.contacts; track c.label) {
+            @for (c of (resumeService.resume$())?.contacts; track c.label) {
               <li>
                 <a class="contact__item" [href]="c.href" [attr.target]="isExternal(c) ? '_blank' : null" rel="noopener">
                   <span class="contact__icon" aria-hidden="true" [innerHTML]="iconSvg(c.icon)"></span>
@@ -36,7 +37,7 @@ import { RESUME, type ContactLink } from '../../core/data/resume.data';
         </div>
 
         <footer class="footer">
-          <span class="mono">© {{ year }} {{ resume.name }} · built with Angular</span>
+          <span class="mono">© {{ year }} {{ (resumeService.resume$())?.name }} · built with Angular</span>
           <span class="mono footer__hint">theme toggle top-right ·  no cookies</span>
         </footer>
       </div>
@@ -47,8 +48,9 @@ import { RESUME, type ContactLink } from '../../core/data/resume.data';
 export class ContactComponent {
   private readonly sanitizer = inject(DomSanitizer);
 
-  protected readonly resume = RESUME;
   protected readonly year = new Date().getFullYear();
+
+  constructor(protected resumeService: ResumeService) {}
 
   protected isExternal(c: ContactLink): boolean {
     return c.href.startsWith('http');

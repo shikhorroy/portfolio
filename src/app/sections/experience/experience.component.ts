@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { ResumeService } from '../../core/services/resume.service';
+import { Resume } from '../../core/data/resume.data';
 
 @Component({
   selector: 'app-experience',
@@ -11,11 +12,11 @@ import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
         <span class="section-eyebrow">Experience</span>
         <h2 class="section-title">A timeline of <span class="text-gradient">shipping things</span></h2>
         <p class="section-subtitle">
-          {{ yrs }}+ years of production systems - from monoliths to event-driven platforms, Dhaka to the cloud.
+          {{ yrs() }}+ years of production systems - from monoliths to event-driven platforms, Dhaka to the cloud.
         </p>
 
         <ol class="timeline">
-          @for (job of resume.experience; track job.company + job.start; let i = $index) {
+          @for (job of (resumeService.resume$())?.experience; track job.company + job.start; let i = $index) {
             <li class="timeline__item">
               <div class="timeline__marker" [class.timeline__marker--current]="job.current"></div>
 
@@ -67,12 +68,19 @@ import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
   `,
   styleUrl: './experience.component.scss',
 })
-export class ExperienceComponent {
-  protected readonly resume = RESUME;
-  protected readonly yrs = yearsOfExperience();
-
-  // Pre-open the current role (index 0)
+export class ExperienceComponent implements OnInit {
+  protected readonly yrs = signal<number>(0);
   protected readonly openIndex = signal<number>(0);
+
+  constructor(protected resumeService: ResumeService) {}
+
+  ngOnInit(): void {
+    this.resumeService.getResume().then((resume: Resume) => {
+      const yearsMatch = resume.about[0].match(/(\d+)\+/);
+      const years = yearsMatch ? parseInt(yearsMatch[1], 10) : 0;
+      this.yrs.set(years);
+    });
+  }
 
   protected toggle(i: number): void {
     this.openIndex.update((current) => (current === i ? -1 : i));

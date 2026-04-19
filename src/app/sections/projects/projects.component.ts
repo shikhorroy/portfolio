@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RESUME } from '../../core/data/resume.data';
+import { ResumeService } from '../../core/services/resume.service';
 
 @Component({
   selector: 'app-projects',
@@ -15,7 +15,7 @@ import { RESUME } from '../../core/data/resume.data';
         </p>
 
         <div class="projects__grid">
-          @for (p of resume.projects; track p.name) {
+          @for (p of (resumeService.resume$())?.projects; track p.name) {
             <article class="projects__card surface">
               <div class="projects__top">
                 <div class="projects__glyph" aria-hidden="true">
@@ -52,10 +52,10 @@ import { RESUME } from '../../core/data/resume.data';
             <h3>Sharpening algorithms at the edge</h3>
           </div>
           <ul class="cp-card__list">
-            @for (line of resume.competitive; track $index) {
+            @for (line of (resumeService.resume$())?.competitive; track $index) {
               <li>{{ line }}
-                @if ($last) {
-                  <a [href]="resume.competitiveLink.url" target="_blank" rel="noopener">{{ resume.competitiveLink.label }}</a>
+                @if ($last && (resumeService.resume$())?.competitiveLink) {
+                  <a [href]="(resumeService.resume$())?.competitiveLink!.url" target="_blank" rel="noopener">{{ (resumeService.resume$())?.competitiveLink!.label }}</a>
                 }
               </li>
             }
@@ -67,5 +67,5 @@ import { RESUME } from '../../core/data/resume.data';
   styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent {
-  protected readonly resume = RESUME;
+  constructor(protected resumeService: ResumeService) {}
 }

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { ResumeService } from '../../core/services/resume.service';
 
 @Component({
   selector: 'app-hero',
@@ -11,11 +11,11 @@ import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
         <div class="hero__content">
           <h1 class="hero__title">
             <span class="hero__hello mono">// hello, world</span>
-            <span class="hero__name">I'm <span class="text-gradient">{{ resume.name }}</span></span>
-            <span class="hero__role">{{ resume.title }}</span>
+            <span class="hero__name">I'm <span class="text-gradient">{{ (resumeService.resume$())?.name }}</span></span>
+            <span class="hero__role">{{ (resumeService.resume$())?.title }}</span>
           </h1>
 
-          <p class="hero__tagline">{{ resume.tagline }}</p>
+          <p class="hero__tagline">{{ (resumeService.resume$())?.tagline }}</p>
 
           <div class="hero__ctas">
             <a class="btn btn--primary" href="#contact">
@@ -28,7 +28,7 @@ import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
           </div>
 
           <div class="hero__stats">
-            @for (h of resume.highlights; track h.label) {
+            @for (h of (resumeService.resume$())?.highlights; track h.label) {
               <div class="hero__stat">
                 <span class="hero__stat-value">{{ h.value }}</span>
                 <span class="hero__stat-label">{{ h.label }}</span>
@@ -43,11 +43,11 @@ import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
             <div class="portrait__ring portrait__ring--inner"></div>
             <div class="portrait__glow"></div>
             <div class="portrait__frame">
-              <img [src]="resume.profileImage" alt="Portrait of {{ resume.name }}" loading="eager"/>
+              <img [src]="(resumeService.resume$())?.profileImage" alt="Portrait of {{ (resumeService.resume$())?.name }}" loading="eager"/>
             </div>
             <span class="portrait__tag portrait__tag--tl mono">&#123; java &#125;</span>
             <span class="portrait__tag portrait__tag--tr mono">kotlin.kt</span>
-            <span class="portrait__tag portrait__tag--br mono">// {{ yrs }}+ yrs</span>
+            <span class="portrait__tag portrait__tag--br mono">// {{ yrs() }}+ yrs</span>
             <span class="portrait__tag portrait__tag--bl mono">&#64;problem solver</span>
           </div>
         </div>
@@ -56,7 +56,16 @@ import { RESUME, yearsOfExperience } from '../../core/data/resume.data';
   `,
   styleUrl: './hero.component.scss',
 })
-export class HeroComponent {
-  protected readonly resume = RESUME;
-  protected readonly yrs = yearsOfExperience();
+export class HeroComponent implements OnInit {
+  protected readonly yrs = signal<number>(0);
+
+  constructor(protected resumeService: ResumeService) {}
+
+  ngOnInit(): void {
+    this.resumeService.getResume().then((resume) => {
+      const yearsMatch = resume.about[0].match(/(\d+)\+/);
+      const years = yearsMatch ? parseInt(yearsMatch[1], 10) : 0;
+      this.yrs.set(years);
+    });
+  }
 }

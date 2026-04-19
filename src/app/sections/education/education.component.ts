@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RESUME } from '../../core/data/resume.data';
+import { ResumeService } from '../../core/services/resume.service';
 
 @Component({
   selector: 'app-education',
@@ -18,9 +18,9 @@ import { RESUME } from '../../core/data/resume.data';
             </svg>
           </div>
           <div class="edu__body">
-            <h3>{{ resume.education.degree }}</h3>
-            <p class="edu__school">{{ resume.education.school }}</p>
-            <p class="edu__meta mono">{{ resume.education.location }}</p>
+            <h3>{{ (resumeService.resume$())?.education!.degree }}</h3>
+            <p class="edu__school">{{ (resumeService.resume$())?.education!.school }}</p>
+            <p class="edu__meta mono">{{ (resumeService.resume$())?.education!.location }}</p>
           </div>
         </article>
       </div>
@@ -29,5 +29,5 @@ import { RESUME } from '../../core/data/resume.data';
   styleUrl: './education.component.scss',
 })
 export class EducationComponent {
-  protected readonly resume = RESUME;
+  constructor(protected resumeService: ResumeService) {}
 }
