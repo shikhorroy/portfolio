@@ -1,0 +1,66 @@
+// No header on this page and the content is static, so centering cannot
+// flicker: line + game sit mid-page, the footer pins to the bottom.
+// Contact has no section-head, so the whole inner column scrolls if it does
+// not fit (the global "only content scrolls" rule targets .section-head + *).
+.contact__inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contact__center {
+  margin-block: auto;
+  display: grid;
+  justify-items: center;
+  gap: clamp(16px, 2.8vh, 30px);
+}
+
+// Divider in the hero rule-dot style: the centered accent dot breathes the
+// shared dot-breathe ripple (defined globally in _utilities.scss).
+.contact__sep {
+  position: relative;
+  width: min(300px, 60%);
+  height: 1px;
+  background: var(--ink-faint);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+    animation: dot-breathe 4s ease-out infinite;
+  }
+}
+
+.contact__line {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(17px, 2.4vw, 20px);
+  color: var(--ink-soft);
+
+  a {
+    font-style: normal;
+  }
+}
+
+.footer {
+  margin-top: clamp(56px, 8vw, 90px);
+  padding-top: 18px;
+  border-top: 1px solid var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}

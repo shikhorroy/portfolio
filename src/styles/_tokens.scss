@@ -1,0 +1,30 @@
+// ----------------------------------------------------------------------------
+// Engineering Plates tokens. One theme: ink on paper. One accent: deep teal.
+// ----------------------------------------------------------------------------
+
+:root {
+  color-scheme: light;
+
+  // Ink & paper - the whole palette
+  --paper: #f4f1e8;
+  --ink: #243240;
+  // 0.7 alpha keeps ~4.6:1 contrast on paper (WCAG AA for small text)
+  --ink-soft: rgba(36, 50, 64, 0.7);
+  --ink-faint: rgba(36, 50, 64, 0.15);
+  --accent: #0f6e66;
+  --accent-soft: rgba(15, 110, 102, 0.14);
+
+  // Type
+  --font-serif: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  // Motion
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-med: 280ms;
+
+  // Layout
+  --container-max: 1000px;
+  --nav-height: 60px;
+}
