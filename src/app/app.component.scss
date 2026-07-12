@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+.main {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--nav-height); // pages start below the fixed nav
+}

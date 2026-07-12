@@ -1,0 +1,324 @@
+// Plate 03 - The Platform, Annotated. Interactive deployment diagram with a
+// fixed-height annotation panel; multi-part boxes render an accordion.
+
+.platform__subcap {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+  margin-top: 14px;
+}
+
+.platform__duo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.platform__duo--open {
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+}
+
+// ---------------------------------------------------------------- diagram --
+.diagram-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--ink-rgb) / 0.3) transparent;
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(var(--ink-rgb) / 0.3);
+    border-radius: 3px;
+  }
+}
+
+svg.diagram {
+  min-width: 700px;
+  width: 100%;
+  height: auto;
+  // keep the whole plate on its page: cap height, drawing scales to fit
+  max-height: calc(100svh - var(--nav-height) - 250px);
+  display: block;
+}
+
+.boundary-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  fill: var(--ink-soft);
+}
+
+.lane-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  fill: var(--accent);
+}
+
+.lane-sep {
+  stroke: rgb(var(--accent-rgb) / 0.3);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+}
+
+.lane-band {
+  fill: rgb(var(--accent-rgb) / 0.06);
+}
+
+.wire {
+  stroke: rgb(var(--ink-rgb) / 0.35);
+  stroke-width: 1.1;
+  fill: none;
+}
+
+.wire--dashed {
+  stroke-dasharray: 3 4;
+  stroke-opacity: 0.75;
+}
+
+.wire-label {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  fill: rgb(var(--ink-rgb) / 0.5);
+}
+
+.arrowhead {
+  fill: rgb(var(--ink-rgb) / 0.4);
+}
+
+.node {
+  cursor: pointer;
+  outline: none;
+
+  rect {
+    fill: var(--panel-fill);
+    stroke: rgb(var(--ink-rgb) / 0.35);
+    stroke-width: 1.2;
+    transition: stroke var(--dur-fast) var(--ease-out), fill var(--dur-fast) var(--ease-out);
+  }
+
+  text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    fill: var(--ink);
+    transition: fill var(--dur-fast) var(--ease-out);
+  }
+
+  text.sub {
+    font-size: 7.5px;
+    fill: var(--ink-soft);
+    letter-spacing: 0.08em;
+  }
+
+  &:hover rect,
+  &:focus-visible rect {
+    stroke: var(--accent);
+    stroke-width: 1.6;
+  }
+
+  &:hover text,
+  &:focus-visible text {
+    fill: var(--accent);
+  }
+
+  &.sel rect {
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    fill: var(--accent-soft);
+  }
+
+  &.sel text {
+    fill: var(--accent);
+  }
+
+  &.ext rect {
+    stroke-dasharray: 4 3;
+  }
+}
+
+// ------------------------------------------------------------------ panel --
+.platform__panel {
+  // same height budget as the diagram, so the page never overflows
+  position: sticky;
+  top: 0;
+  height: min(500px, calc(100svh - var(--nav-height) - 250px));
+  overflow: hidden;
+
+  &.is-empty {
+    display: none; // panel appears on first selection
+  }
+}
+
+.panel__scroll {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.panel__close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  z-index: 1;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px;
+  color: var(--ink-soft);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.panel__more {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  padding: 26px 0 8px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: var(--accent);
+  background: linear-gradient(to bottom, rgb(var(--paper-rgb) / 0), var(--paper) 65%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+
+  &--on {
+    opacity: 1;
+  }
+}
+
+.panel__inner {
+  animation: panel-fadeup var(--dur-med) var(--ease-out);
+}
+
+@keyframes panel-fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.panel__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+}
+
+.panel__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 20px;
+  margin: 0 0 10px;
+}
+
+.panel__story {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.panel__tags {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.panel__part {
+  border-top: 1px solid var(--ink-faint);
+  padding-top: 10px;
+  margin-top: 12px;
+
+  summary {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--accent);
+
+    &::marker {
+      color: var(--accent);
+      font-size: 11px;
+    }
+  }
+
+  .panel__story {
+    font-size: 13.5px;
+    margin: 8px 0;
+  }
+}
+
+// --------------------------------------------------------------- narrow ----
+// The annotation becomes a fixed bottom sheet - never scroll to read it.
+@media (max-width: 900px) {
+  .platform__duo--open {
+    grid-template-columns: 1fr;
+  }
+
+  .platform__panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    z-index: 30;
+    height: 42vh;
+    background: var(--paper);
+    border-top: 2px solid var(--accent);
+    box-shadow: 0 -6px 20px rgb(var(--ink-rgb) / 0.1);
+  }
+}
+
+.dot-layer .dot {
+  offset-path: path('M 390 32 V 208 H 542 V 226 H 470 V 244 H 352 C 300 274, 190 274, 143 300 C 190 274, 300 274, 352 244 H 376 C 360 270, 330 276, 315 300 C 330 276, 360 270, 376 244 H 404 C 420 270, 448 276, 462 300 C 448 276, 420 270, 404 244 H 428 C 480 274, 580 274, 625 300 C 580 274, 480 274, 428 244 H 390 V 32');
+  animation: dot-travel 22s linear infinite;
+}
+
+@keyframes dot-travel {
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot-layer {
+    display: none;
+  }
+}

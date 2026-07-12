@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting…</title>
+  <script>
+    // GitHub Pages SPA fallback: any unknown path redirects to the app root,
+    // preserving the original path as a hash so the app could handle it later.
+    (function () {
+      var segments = location.pathname.split('/').filter(Boolean);
+      var base = segments.length > 0 ? '/' + segments[0] + '/' : '/';
+      location.replace(base);
+    })();
+  </script>
+  <meta http-equiv="refresh" content="0; url=/">
+</head>
+<body>Redirecting to the homepage…</body>
+</html>

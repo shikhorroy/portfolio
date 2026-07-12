@@ -1,0 +1,159 @@
+// FIG. F - two-player tic-tac-toe, drawn like the other plates.
+
+.ttt {
+  display: grid;
+  justify-items: center;
+  gap: 11px;
+}
+
+.ttt__invite {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+.ttt__caption {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+// board + coordinate labels (call your move like "B2" over the phone)
+.ttt__frame {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+}
+
+.ttt__cols,
+.ttt__rows {
+  display: grid;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+
+  span {
+    display: grid;
+    place-items: center;
+  }
+}
+
+.ttt__cols {
+  grid-area: 1 / 2;
+  grid-template-columns: repeat(3, 1fr);
+  padding-bottom: 8px;
+}
+
+.ttt__rows {
+  grid-area: 2 / 1;
+  grid-template-rows: repeat(3, 1fr);
+  padding-right: 12px;
+}
+
+.ttt__board {
+  grid-area: 2 / 2;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr); // rows never resize when marks appear
+  width: min(40vh, 220px);
+  aspect-ratio: 1;
+}
+
+.ttt__cell {
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+
+  // hand-drawn "#": interior grid lines only, no outer frame
+  &:not(:nth-child(3n)) {
+    border-right: 1.5px solid rgb(var(--ink-rgb) / 0.4);
+  }
+
+  &:nth-child(-n + 6) {
+    border-bottom: 1.5px solid rgb(var(--ink-rgb) / 0.4);
+  }
+
+  &:not(:disabled):hover {
+    background: var(--accent-soft);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  svg {
+    width: 62%;
+    height: 62%;
+  }
+}
+
+.ttt__mark {
+  stroke: var(--ink);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.ttt__strike {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  line {
+    stroke: var(--accent);
+    stroke-width: 0.07;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    animation: ttt-strike 0.4s var(--ease-out);
+  }
+}
+
+@keyframes ttt-strike {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ttt__status {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+
+  &--win {
+    color: var(--accent);
+  }
+}
+
+.ttt__score {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ttt__actions {
+  display: flex;
+  gap: 22px;
+
+  button {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+}

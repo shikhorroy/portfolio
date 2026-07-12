@@ -1,0 +1,57 @@
+// ----------------------------------------------------------------------------
+// Engineering Plates tokens. Ink on paper, one deep-teal accent.
+// Two themes: the palette is a small set of base colors; everything else is
+// derived from them with alpha, so light/dark only override the base values.
+// Base colors carry an rgb triplet (--*-rgb) so alpha variants and the canvas
+// can be built from the same source and flip with the theme.
+// ----------------------------------------------------------------------------
+
+:root {
+  color-scheme: light;
+
+  // Ink & paper - the whole palette
+  --paper: #f4f1e8;
+  --paper-rgb: 244 241 232;
+  --ink: #243240;
+  --ink-rgb: 36 50 64;
+  --accent: #0f6e66;
+  --accent-rgb: 15 110 102;
+
+  // Derived from the base triplets (recompute automatically per theme).
+  // 0.7 alpha keeps ~4.6:1 contrast on paper (WCAG AA for small text).
+  --ink-soft: rgb(var(--ink-rgb) / 0.7);
+  --ink-faint: rgb(var(--ink-rgb) / 0.15);
+  --accent-soft: rgb(var(--accent-rgb) / 0.14);
+  --panel-fill: rgb(255 255 255 / 0.45); // glass plate fill
+
+  // Type
+  --font-serif: 'Spectral', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  // Motion
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-med: 280ms;
+
+  // Layout
+  --container-max: 1000px;
+  --nav-height: 60px;
+}
+
+// Dark theme: override only the base colors. Everything derived (soft/faint/
+// accent-soft) and the canvas recompute from these. Warm off-white ink on a
+// deep cool-charcoal paper; the teal accent is brightened so it still pops.
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper: #12161b;
+  --paper-rgb: 18 22 27;
+  --ink: #ece7db;
+  --ink-rgb: 236 231 219;
+  --accent: #34a99c;
+  --accent-rgb: 52 169 156;
+
+  // on dark, panels lift with a faint light wash instead of white glass
+  --panel-fill: rgb(255 255 255 / 0.04);
+}

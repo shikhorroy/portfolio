@@ -1,0 +1,126 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: var(--nav-height);
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink-faint);
+}
+
+.nav__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.nav__brand {
+  font-family: var(--font-serif);
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  font-size: 17px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+// links + theme toggle share the right side and stay grouped together
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 22px);
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(12px, 2.4vw, 26px);
+}
+
+.nav__theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--ink-faint);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  flex: none;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
+.nav__link {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding-block: 4px;
+  white-space: nowrap; // keep each "01 About" on one line - never wrap internally
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--ink);
+  }
+
+  &--active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+}
+
+.nav__num {
+  color: var(--ink-faint);
+  margin-right: 2px;
+}
+
+// Mid widths: 7 full labels + brand + the "01..07" numbers do not fit on one
+// row. The numbers are decorative (they echo the section eyebrows), so drop
+// them here and keep the labels, which are what actually navigates. Shrink
+// type and gaps too so every label - including CONTACT - stays visible.
+@media (max-width: 1120px) {
+  .nav__brand {
+    font-size: 14px;
+  }
+
+  .nav__num {
+    display: none;
+  }
+
+  .nav__link {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .nav__links {
+    gap: clamp(8px, 1.4vw, 16px);
+  }
+}
+
+// Phones: even labels-only is too wide, so fall back to the compact numbers.
+@media (max-width: 560px) {
+  .nav__num {
+    display: inline;
+  }
+
+  .nav__label {
+    display: none;
+  }
+
+  .nav__links {
+    gap: 14px;
+  }
+}
