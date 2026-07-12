@@ -1,0 +1,75 @@
+// No header on this page and the content is static, so centering cannot
+// flicker: line + game sit mid-page, the footer pins to the bottom.
+.contact__inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.contact__center {
+  margin-block: auto;
+  display: grid;
+  justify-items: center;
+  gap: clamp(16px, 2.8vh, 30px);
+}
+
+// Divider in the hero rule-dot style, but alive: the centered accent dot
+// breathes a soft ripple - no movement, nothing to catch the eye's periphery.
+// With reduced motion the animation dies and it is the exact hero divider.
+.contact__sep {
+  position: relative;
+  width: min(300px, 60%);
+  height: 1px;
+  background: var(--ink-faint);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+    animation: sep-breathe 4s ease-out infinite;
+  }
+}
+
+@keyframes sep-breathe {
+  0% {
+    box-shadow: 0 0 0 0 rgba(15, 110, 102, 0.3);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 9px rgba(15, 110, 102, 0);
+  }
+}
+
+.contact__line {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(17px, 2.4vw, 20px);
+  color: var(--ink-soft);
+
+  a {
+    font-style: normal;
+  }
+}
+
+.footer {
+  margin-top: clamp(56px, 8vw, 90px);
+  padding-top: 18px;
+  border-top: 1px solid var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}

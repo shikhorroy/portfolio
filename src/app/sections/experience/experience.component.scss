@@ -1,0 +1,183 @@
+// Experience: in-page navigator (timeline spine, left) + one role's details
+// (right). One role is always visible, so the page never needs to scroll on
+// desktop; small screens fall back to the section's inner scroll.
+
+.xp {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+
+// ------------------------------------------------------------- navigator --
+.xp__nav {
+  display: grid;
+  border-left: 1px solid var(--ink-faint);
+}
+
+.xp__stop {
+  position: relative;
+  text-align: left;
+  padding: 12px 0 12px 24px;
+  display: grid;
+  gap: 2px;
+
+  // timeline dot on the spine
+  &::before {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: 19px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ink-soft);
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+
+  &--current::before {
+    background: var(--accent);
+  }
+
+  &:hover .xp__stop-co {
+    color: var(--accent);
+  }
+
+  &--active {
+    &::before {
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .xp__stop-co {
+      color: var(--accent);
+    }
+
+    .xp__stop-dates {
+      color: var(--ink);
+    }
+  }
+}
+
+.xp__stop-co {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.xp__stop-dates {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+// ---------------------------------------------------------------- detail --
+.xp__card {
+  animation: xp-fadeup var(--dur-med) var(--ease-out);
+}
+
+@keyframes xp-fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.xp__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.xp__role {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 21px;
+}
+
+.xp__org {
+  margin-top: 3px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.xp__dates {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+// tighter header rhythm: this page carries the most content
+.section-head {
+  margin-bottom: clamp(20px, 3vh, 32px);
+}
+
+.xp__points {
+  display: grid;
+  gap: 7px;
+
+  li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink);
+
+    &::before {
+      content: '-';
+      position: absolute;
+      left: 0;
+      color: var(--ink-soft);
+    }
+  }
+}
+
+// --------------------------------------------------------------- narrow ----
+@media (max-width: 700px) {
+  .xp {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  // navigator becomes a wrapped row of stops
+  .xp__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    border-left: 0;
+    border-bottom: 1px solid var(--ink-faint);
+    padding-bottom: 10px;
+  }
+
+  .xp__stop {
+    padding: 6px 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .xp__stop-co {
+    font-size: 14px;
+  }
+
+  .xp__stop--active .xp__stop-co {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}

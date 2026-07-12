@@ -1,0 +1,13 @@
+<app-plates-canvas />
+<app-nav-bar />
+
+<main class="main">
+  <app-hero [class.page-hidden]="page() !== 'top'" />
+  <app-about [class.page-hidden]="page() !== 'about'" />
+  <app-platform [class.page-hidden]="page() !== 'platform'" />
+  <app-experience [class.page-hidden]="page() !== 'experience'" />
+  <app-skills [class.page-hidden]="page() !== 'skills'" />
+  <app-projects [class.page-hidden]="page() !== 'projects'" />
+  <app-education [class.page-hidden]="page() !== 'education'" />
+  <app-contact [class.page-hidden]="page() !== 'contact'" />
+</main>
